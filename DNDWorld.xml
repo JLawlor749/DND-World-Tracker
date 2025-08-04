@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<world>
+
+	<country name="Kaeland" equivalent="Ireland">
+
+		<city name="Lockdun" equivalent="Dublin">
+
+			<street name="Grovement Street">
+				<shop name="The Fair Die" type="magicItem">
+				</shop>
+
+				<shop name="The Wild Bramble" type="apothecary">
+				</shop>
+
+				<shop name="Allen's Armory" type="weapon">
+				</shop>
+
+				<shop name="Tom's Arcane Crafts" type="magicItem">
+				</shop>
+
+				<shop name="Darcy's Grocer" type="grocery">
+				</shop>
+			</street>
+
+			<street name="Duchess Street">
+				<shop name="Theovo Theater" type="theater">
+				</shop>
+
+				<shop name="Quadrinity Bar" type="bar">
+				</shop>
+			</street>
+
+			<street name="Basil Street"></street>
+
+			<street name="Houndsong Street"></street>
+
+			<street name="College Green"></street>
+
+			<landmark name="St. Reginald's Green" type="park" location="Grovement Street"></landmark>
+
+			<landmark name="Quadrinity College" type="university" location="College Green"></landmark>
+
+		</city>
+
+		<city name="Lusk" equivalent="Cork">
+
+		</city>
+
+		<city name="Awon Craggock" equivalent="Galway">
+
+		</city>
+
+		<city name="Donestran" equivalent="Donegal">
+
+		</city>
+
+	</country>
+
+	<country name="Fauvergne" equivalent="France">
+
+		<city name="Mechante" equivalent="Paris">
+
+			<street name="Jardin Paradisiaque">
+				<shop name="Lechante Tailors" type="tailor">
+				</shop>
+
+				<shop name="Pain de Fantaisie" type="bakery">
+				</shop>
+
+				<shop name="Gusteau's" type="restaurant">
+				</shop>
+			</street>
+
+			<street name="Avenue Verslest">
+			</street>
+
+			<landmark name="Alppí Tower" type="monument" location="Avenue Verslest"></landmark>
+
+		</city>
+
+	</country>
+
+	<country name="Arterton" equivalent="England">
+
+		<city name="Redford" equivalent="London">
+
+			<street name="McLaren Street"></street>
+
+			<street name="Cowcross Street"></street>
+
+			<street name="Parliament Street"></street>
+
+			<landmark name="Eastabbey Palace" type="monument" location="Parliament Street"></landmark>
+
+			<landmark name="Massive Matthew" type="monument" location="Eastabbey Palace"></landmark>
+
+		</city>
+
+		<city name="Famningham" equivalent="Birmingham">
+
+		</city>
+
+		<city name="Ethchester" equivalent="Manchester">
+
+		</city>
+
+		<city name="Shose" equivalent="Leeds">
+
+		</city>
+
+	</country>
+
+	<country name="United Federation of Vespus" equivalent="United States of America">
+
+		<city name="Los Prados" equivalent="Las Vegas">
+
+			<street name="High Street">
+
+			</street>
+
+		</city>
+
+		<city name="New Oreburgh" equivalent="New York">
+
+		</city>
+
+		<city name="Santa Isabella" equivalent="San Francisco">
+
+		</city>
+
+		<city name="Enidston" equivalent="Houston">
+
+		</city>
+
+		<city name="Republic City" equivalent="Washington D.C.">
+
+		</city>
+
+	</country>
+
+	<country name="Vremya" equivalent="Russia">
+
+		<city name="Norovremya" equivalent="Novorossiysk">
+
+		</city>
+
+		<city name="Bolotow" equivalent="Moscow">
+
+		</city>
+
+	</country>
+
+	<country name="Drachma" equivalent="Germany">
+
+		<city name="Bagnin" equivalent="Berlin">
+
+			<street name="Wählerweg"></street>
+
+			<street name="Siegesstraße"></street>
+
+			<landmark name="Königsplatz" type="park" location="Siegesstraße"></landmark>
+
+			<landmark name="Reichstag" type="government" location="Königsplatz"></landmark>
+
+		</city>
+
+	</country>
+
+	<country name="Keikoku" equivalent="Japan">
+
+	</country>
+
+	<country name="Havetsland" equivalent="Sweden">
+
+		<city name="Keephos" equivalent="Stockholm">
+
+		</city>
+
+	</country>
+
+	<country name="Hellas" equivalent="Greece">
+
+		<city name="Olete" equivalent="Athens">
+
+		</city>
+
+		<city name="Symprotevousa" equivalent="Thessaloniki">
+			<landmark name="Mount Theovos" type="geographical" location="Nearby"></landmark>
+		</city>
+
+	</country>
+
+	<country name="Qasrubitah" equivalent="Egypt">
+
+		<city name="Alzuhra" equivalent="Cairo">
+
+			<landmark name="The Great Pyramids" type="historical" location="Outskirts"></landmark>
+
+			<street name="Yaebur Street">
+				<shop name="Abubakr's Armaments" type="weapon"></shop>
+			</street>
+
+		</city>
+
+	</country>
+
+	<country name="Priecig" equivalent="Estonia/Latvia/Lithuania">
+
+		<city name="Rekti" equivalent="Riga">
+
+		</city>
+
+	</country>
+
+	<country name="Lächten" equivalent="Austria">
+
+		<city name="Ankoll" equivalent="Vienna">
+			<street name="Halostrasse"></street>
+		</city>
+
+	</country>
+
+	<country name="Aerugo" equivalent="Italy">
+
+		<city name="Reme" equivalent="Rome">
+			<landmark name="The Colosseum" type="historical" location="N/A"></landmark>
+		</city>
+
+	</country>
+
+	<country name="Duzykot" equivalent="Poland">
+
+		<city name="Chwalasaw" equivalent="Warsaw">
+			<street name="Nowe Królestwo" equivalent="Nowy Świat"></street>
+		</city>
+
+	</country>
+
+	<country name="Patracion" equivalent="Spain/Portugal">
+
+		<city name="Almia" equivalent="Madrid">
+			<street name="Gran Camino" equivalent="Gran Vía"></street>
+		</city>
+
+		<city name="Falico" equivalent="Lisbon">
+			<street name="Caminho da Anistia" equivalent="Avenida da Liberdade"></street>
+		</city>
+
+	</country>
+
+	<country name="Miluji" equivalent="Czechoslovakia">
+
+		<city name="Pohran" equivalent="Prague">
+
+		</city>
+
+	</country>
+
+	<country name="Na'Yet'Vi" equivalent="Vietnam">
+
+		<city name="Noihe" equivalent="Hanoi">
+
+		</city>
+		
+	</country>
+
+	<country name="Yuneslavena" equivalent="Yugoslavia">
+
+		<city name="Bledatr" equivalent="Belgrade">
+
+		</city>
+
+	</country>
+
+	<country name="Hibernia" equivalent="Scotland">
+
+		<city name="Garranah" equivalent="Glasgow">
+
+		</city>
+
+	</country>
+
+</world>
