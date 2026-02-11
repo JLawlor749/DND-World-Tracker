@@ -112,6 +112,18 @@
 
 	<country name="United Federation of Vespus" equivalent="United States of America">
 
+		<city name="Jaloxas" equivalent="Texas">
+
+		</city>
+
+		<city name="Metsana" equivalent="Arizona">
+
+		</city>
+
+		<city name="Invernal" equivalent="Nevada">
+
+		</city>
+
 		<city name="Los Prados" equivalent="Las Vegas">
 
 			<street name="High Street">
@@ -277,6 +289,50 @@
 		<city name="Garranah" equivalent="Glasgow">
 
 		</city>
+
+	</country>
+
+	<country name="Nordgerich" equivalent="Norway">
+
+		<city name="Helligeng" equivalent="Oslo">
+
+		</city>
+
+	</country>
+
+	<country name="Eunwan" equivalent="Korea">
+
+		<city name="Sudo" equivalent="Seoul">
+
+		</city>
+
+	</country>
+
+	<country name="Dharia" equivalent="India">
+
+		<city name="New Seemha" equivalent="New Delhi">
+
+		</city>
+		
+	</country>
+
+	<country name="Jegerland" equivalent="Finland">
+
+		<city name="Stockfors" equivalent="Helsinki">
+
+		</city>
+
+	</country>
+
+	<country name="Abbaland" equivalent="Albania">
+
+		<city name="Keytet" equivalent="Tirana">
+
+		</city>
+
+	</country>
+
+	<country name="Sangue" equivalent="Brazil">
 
 	</country>
 
