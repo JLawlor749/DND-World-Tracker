@@ -36,56 +36,56 @@ def countrySort(countries):
 
 
 class Shop:
-    def __init__(self, name, world):
-        self.name = processInfo(name, "shop", "name")
-        self.type = processInfo(name, "shop", "type")
-        self.world = world
+    def __init__(self, locationData):
+        self.name = processInfo(locationData, "shop", "name")
+        self.type = processInfo(locationData, "shop", "type")
+        self.locationData = locationData
 
 
 
 class Street:
-    def __init__(self, name, world):
-        self.name = processInfo(name, "street", "name")
-        self.world = world
+    def __init__(self, locationData):
+        self.name = processInfo(locationData, "street", "name")
+        self.locationData = locationData
         self.shops = []
 
         shopPattern = "<shop.*?</shop>"
-        shops = re.findall(shopPattern, name, re.DOTALL)
+        shops = re.findall(shopPattern, self.locationData, re.DOTALL)
 
         for shop in shops:
-            newShop = Shop(shop, self.world)
+            newShop = Shop(shop)
             self.shops.append(newShop)
 
 
 
 class Landmark:
-    def __init__(self, name, world):
-        self.name = processInfo(name, "landmark", "name")
-        self.type = processInfo(name, "landmark", "type")
-        self.location = processInfo(name, "landmark", "location")
-        self.world = world
+    def __init__(self, locationData):
+        self.name = processInfo(locationData, "landmark", "name")
+        self.type = processInfo(locationData, "landmark", "type")
+        self.location = processInfo(locationData, "landmark", "location")
+        self.locationData = locationData
         
 
 
 class City:
-    def __init__(self, name, world):
-        self.name = processInfo(name, "city", "name")
-        self.equivalent = processInfo(name, "city", "equivalent")
-        self.world = world
+    def __init__(self, locationData):
+        self.name = processInfo(locationData, "city", "name")
+        self.equivalent = processInfo(locationData, "city", "equivalent")
+        self.locationData = locationData
         self.streets = []
         self.landmarks = []
 
         streetPattern = "<street.*?</street>"
         landmarkPattern = "<landmark.*?</landmark>"
-        streets = re.findall(streetPattern, name, re.DOTALL)
-        landmarks = re.findall(landmarkPattern, name, re.DOTALL)
+        streets = re.findall(streetPattern, self.locationData, re.DOTALL)
+        landmarks = re.findall(landmarkPattern, self.locationData, re.DOTALL)
 
         for street in streets:
-            newStreet = Street(street, self.world)
+            newStreet = Street(street)
             self.streets.append(newStreet)
 
         for landmark in landmarks:
-            newLandmark = Landmark(landmark, self.world)
+            newLandmark = Landmark(landmark)
             self.landmarks.append(newLandmark)
 
         self.allItems = self.streets + self.landmarks
@@ -108,17 +108,17 @@ class City:
 
 
 class Country:
-    def __init__(self, name, world):
-        self.name = processInfo(name, "country", "name")
-        self.equivalent = processInfo(name, "country", "equivalent")
-        self.world = world
+    def __init__(self, locationData):
+        self.name = processInfo(locationData, "country", "name")
+        self.equivalent = processInfo(locationData, "country", "equivalent")
+        self.locationData = locationData
         self.cities = []
 
         cityPattern = "<city.*?</city>"
-        cities = re.findall(cityPattern, name, re.DOTALL)
+        cities = re.findall(cityPattern, self.locationData, re.DOTALL)
 
         for city in cities:
-            newCity = City(city, self.world)
+            newCity = City(city)
             self.cities.append(newCity)
 
     def __str__(self):
@@ -150,7 +150,7 @@ countries = getCountries(worldData)
 nationList = []
 
 for country in countries:
-    newCountry = Country(country, worldData)
+    newCountry = Country(country)
     nationList.append(newCountry)
 nationList = countrySort(nationList)
 
@@ -317,7 +317,7 @@ while exitProgram == False:
         worldData = newData
         newCity = City("<city name=\"{}\" equivalent=\"{}\">\n\n\t\t</city>".format(newCityName, newCityEquiv), worldData)
         selectedCountry.cities.append(newCity)
-        
+
         continue      
 
     if selection == 4:
