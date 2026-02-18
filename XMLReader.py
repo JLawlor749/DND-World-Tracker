@@ -17,10 +17,10 @@ def processInfo(place, type, subInfo):
 
 
 
-def getCountries(worldData):
-    countryPattern = "<country.*?</country>"
-    countries = re.findall(countryPattern, worldData, re.DOTALL)
-    return countries
+def getContinents(worldData):
+    continentPattern = "<continent.*?</continent>"
+    continents = re.findall(continentPattern, worldData, re.DOTALL)
+    return continents
 
 
 
@@ -122,21 +122,38 @@ class Country:
             self.cities.append(newCity)
 
     def __str__(self):
-        returnString = "{} ({})".format(self.name, self.equivalent)
+        returnString = "    {} ({})".format(self.name, self.equivalent)
         returnString += "\n"
         for city in self.cities:
-            returnString += "      >{} ({})\n".format(city.name, city.equivalent)
+            returnString += "        >{} ({})\n".format(city.name, city.equivalent)
 
             for street in city.streets:
-                returnString += "          -" + street.name + "\n"
+                returnString += "            -" + street.name + "\n"
 
                 for shop in street.shops:
-                    returnString += "                ~{} (Type: {})\n".format(shop.name, shop.type)
+                    returnString += "                      ~{} (Type: {})\n".format(shop.name, shop.type)
 
             for landmark in city.landmarks:
-                returnString += "          -{} (Type: {}, Location: {})\n".format(landmark.name, landmark.type, landmark.location)
+                returnString += "               -{} (Type: {}, Location: {})\n".format(landmark.name, landmark.type, landmark.location)
 
         return returnString
+
+
+
+class Continent:
+    def __init__(self, locationData):
+        self.name = processInfo(locationData, "continent", "name")
+        self.equivalent = processInfo(locationData, "continent", "equivalent")
+        self.locationData = locationData
+        self.countries = []
+
+        countryPattern = "<country.*?</country>"
+
+        countries = re.findall(countryPattern, self.locationData, re.DOTALL)
+
+        for country in countries:
+            newCountry = Country(country)
+            self.countries.append(newCountry)
             
             
 
@@ -146,75 +163,112 @@ worldFile = open(worldFilePath, "r", encoding="UTF-8")
 worldData = worldFile.read()
 worldFile.close()
 
-countries = getCountries(worldData)
-nationList = []
+continents = getContinents(worldData)
+worldContinents = []
 
-for country in countries:
-    newCountry = Country(country)
-    nationList.append(newCountry)
-nationList = countrySort(nationList)
+for cont in continents:
+    newCont = Continent(cont)
+    worldContinents.append(newCont)
 
 exitProgram = False
 
 while exitProgram == False:
     print("~~~Jim's DND Geography Archive (1940s Edition)~~~")
     print("-------------------------------------------------\n")
-    
-    print("Detected a total [{}] countries.\n".format(len(nationList)))
 
-    print("Please select a country by entering its number:")
+    countryCount = 0
 
-    for i in range(len(nationList)):
-        print("{}. {} ({})".format(i+1, nationList[i].name, nationList[i].equivalent))
+    for cont in worldContinents:
+        countryCount += len(cont.countries)
     
-    print("{}. {}".format(len(nationList)+1, "Print all countries info"))
-    print("{}. {}".format(len(nationList)+2, "Add new country"))
-    print("{}. {}".format(len(nationList)+3, "Exit"))
+    print("Detected a total [{}] countries.\n".format(countryCount))
+
+    print("Please select a country by entering its number:\n")
+
+    countryCount = 0
+    nationsList = []
+
+    for cont in worldContinents:
+        print("{} ({})".format(cont.name, cont.equivalent))
+
+
+        for c in cont.countries:
+            countryCount += 1
+            print("     {}. {} ({})".format(countryCount, c.name, c.equivalent))
+            nationsList.append(c)
+
+        print("\n")
+
+    print("-------------------------------------------------\n")
+
+    printAll = countryCount+1
+    addCountry = countryCount+2
+    selectQuit = countryCount+3
+    
+    print("{}. {}".format(printAll, "Print all countries info"))
+    print("{}. {}".format(addCountry, "Add new country"))
+    print("{}. {}".format(selectQuit, "Exit"))
 
     selection = int(input())
 
-    if selection == len(nationList)+1:
+    if selection == printAll:
         print("\n")
-        for nation in nationList:
-            print(nation)
+        
+        for cont in worldContinents:
+            print("{} ({})".format(cont.name, cont.equivalent))
+
+            for c in cont.countries:
+                print(c)
+
             print("\n")
 
         input("Press enter to continue")
         print("\n")
         continue
 
-    if selection == len(nationList)+2:
+    if selection == addCountry:
         newCountryName = input("Please enter the name of your new country:\n")
         newCountryEquiv = input("Please enter the real-world equivalent of your new country (N/A if none):\n")
 
-        newPointIndex = worldData.find("</world>")
-        print(newPointIndex)
+        print("Please select which continent this country resides in:")
 
-        mainData = worldData[0:newPointIndex - 1]
-        newData = mainData + "\n\t<country name=\"{}\" equivalent=\"{}\">\n\n\t</country>\n\n".format(newCountryName, newCountryEquiv)
-        newData = newData + "</world>"
+        for i in range(len(worldContinents)):
+            print("{}. {} ({})".format(i+1, worldContinents[i].name, worldContinents[i].equivalent))
+
+        continentSelection = int(input())
+
+        continentSelection = worldContinents[continentSelection-1]
+
+        searchString = "<continent name=\"{}\" equivalent=\"{}\">".format(continentSelection.name, continentSelection.equivalent)
+
+        newPointIndex = worldData.find(searchString)
+
+        print("Selected: {}".format(continentSelection.name))
+
+        beforeData = worldData[0:newPointIndex + len(searchString)]
+
+        afterData = worldData[newPointIndex + len(searchString):len(worldData)]
+
+        newData = beforeData + "\n\n\t\t<country name=\"{}\" equivalent=\"{}\">\n\t\t</country>".format(newCountryName, newCountryEquiv)
+        newData = newData + afterData
+
+        newCountryObj = Country("\n\n\t\t<country name=\"{}\" equivalent=\"{}\">\n\t\t</country>".format(newCountryName, newCountryEquiv))
 
         worldFile = open(worldFilePath, "w", encoding="UTF-8")
         worldFile.write(newData)
         worldFile.close()
 
-        worldData = newData
-        newCountries = getCountries(worldData)
+        continentSelection.countries.append(newCountryObj)
 
-        for country in newCountries:
-            if country not in countries:
-                newCountry = Country(country, worldData)
-                nationList.append(newCountry)
-
-        nationList = countrySort(nationList)
         continue
 
-    if selection == len(nationList)+3:
+    if selection == selectQuit:
         exitProgram = True
         break
 
-    selectedCountry = nationList[selection-1]
+    selectedCountry = nationsList[selection-1]
     
+    ##### What is the user doing with selected country? ##############################
     print("\nWhat would you like to do with {}?".format(selectedCountry.name))
     print("1. Print Info")
     print("2. Select City")
@@ -223,12 +277,14 @@ while exitProgram == False:
 
     selection = int(input())
 
+    ##### Print Info About Country ##############################
     if selection == 1:
         print("\n")
         print(selectedCountry)
         input("Press enter to continue")
         print("\n")
 
+    ##### Selecting City ##############################
     if selection == 2:
         print("\nPlease select a city by entering its number:")
         cityList = selectedCountry.cities
@@ -245,19 +301,23 @@ while exitProgram == False:
 
         selectedCity = cityList[selection-1]
 
+        ##### What is the user doing with selected city? ##############################
         print("\nWhat would you like to do with {}?".format(selectedCity.name))
         print("1. Print Info")
         print("2. Select Street/Landmark")
-        print("3. Back")
+        print("3. Add Street/Landmark")
+        print("4. Back")
 
         selection = int(input())
 
+        ##### Print Info About City ##############################
         if selection == 1:
             print("\n")
             print(selectedCity)
             input("Press enter to continue")
             print("\n")
 
+        ##### Selecting Street/Landmark ##############################
         if selection == 2:
             print("\nPlease select a street or landmark by entering its number:")
             itemList = selectedCity.allItems
@@ -274,26 +334,43 @@ while exitProgram == False:
 
             selectedItem = itemList[selection-1]
 
-            print("\nWhat would you like to do with {}?".format(selectedItem.name))
-            print("1. Print Info")
-            print("2. Back")
+            ##### What is the user doing with selected street/landmark? ##############################
+            if type(selectedItem) == Street:
+                print("\nWhat would you like to do with {}?".format(selectedItem.name))
+                print("1. Print Info")
+                print("2. Select Shop")
+                print("3. Add Shop")
+                print("3. Back")
+
+            if type(selectedItem) == Landmark:
+                print("\nWhat would you like to do with {}?".format(selectedItem.name))
+                print("1. Print Info")
+                print("2. Back")
 
             selection = int(input())
 
+            ##### Print Info About Street/Landmark ##############################
             if selection == 1:
                 print("\n")
                 print(selectedItem)
                 input("Press enter to continue")
                 print("\n")
 
+            ##### Selecting Shop ##############################
             if selection == 2:
+                pass
+
+            ##### Go Back ##############################
+            if selection == 3:
                 print("\n\n\n")
                 continue
 
+        ##### Go Back ##############################
         if selection == 3:
             print("\n\n\n")
             continue
 
+    ##### Add New City ##############################
     if selection == 3:
         newCityName = input("Please enter the name of your new city:\n")
         newCityEquiv = input("Please enter the real-world equivalent of your new city (N/A if none):\n")
@@ -309,17 +386,18 @@ while exitProgram == False:
         worldDataStart = worldData[0:newPointIndex]
         worldDataFinish = worldData[newPointIndex+1:len(worldData)]
 
-        newData = worldDataStart + "\n\n\t\t<city name=\"{}\" equivalent=\"{}\">\n\n\t\t</city>\n".format(newCityName, newCityEquiv) + worldDataFinish
+        newData = worldDataStart + "\n\t\t\t<city name=\"{}\" equivalent=\"{}\">\n\t\t\t</city>\n".format(newCityName, newCityEquiv) + worldDataFinish
         worldFile = open(worldFilePath, "w", encoding="UTF-8")
         worldFile.write(newData)
         worldFile.close()
 
         worldData = newData
-        newCity = City("<city name=\"{}\" equivalent=\"{}\">\n\n\t\t</city>".format(newCityName, newCityEquiv), worldData)
+        newCity = City("<city name=\"{}\" equivalent=\"{}\">\n\n\t\t</city>".format(newCityName, newCityEquiv))
         selectedCountry.cities.append(newCity)
 
         continue      
 
+    ##### Go Back ##############################
     if selection == 4:
         print("\n\n\n")
         continue
